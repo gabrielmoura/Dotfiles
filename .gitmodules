@@ -1,0 +1,15 @@
+[submodule "dotConfig/zsh/plugins/zsh-syntax-highlighting"]
+	path="Stow/zsh/.config/zsh/plugins/zsh-syntax-highlighting"
+	url = https://github.com/zsh-users/zsh-syntax-highlighting
+[submodule "dotConfig/zsh/themes/spaceship-prompt"]
+	path="Stow/zsh/.config/zsh/themes/spaceship-prompt"
+	url = https://github.com/denysdovhan/spaceship-prompt
+[submodule "oh-my-zsh"]
+	path="Stow/oh-my-zsh/.oh-my-zsh"
+	url = https://github.com/ohmyzsh/ohmyzsh
+[submodule "pass"]
+	path="Stow/pass/.password-store"
+	url = https://github.com/gabrielmoura/pass
+[submodule "dotConfig/ranger/plugins/ranger_devicons"]
+	path="Stow/ranger/.config/ranger/plugins/ranger_devicons"
+	url = https://github.com/alexanderjeurissen/ranger_devicons

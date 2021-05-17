@@ -1,0 +1,11 @@
+#!/bin/sh
+#git clone https://github.com/SeraphyBR/linux-vt-setcolors
+#cd linux-vt-setcolors
+#sudo make install
+
+PROGRAM=/usr/local/bin/setcolors
+COLORS=/etc/tty-colors
+
+if [ -e "$PROGRAM" ] && [ -e $COLORS ]; then
+    $PROGRAM $COLORS
+fi

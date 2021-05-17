@@ -1,0 +1,401 @@
+ 
+##--------------- Gabriel Moura <develop@srmoura.com.br> -------------------------
+##================================================================================
+##============================== DEFINIÇÕES ======================================
+##================================================================================
+set $alt Mod1
+set $control Control
+set $mod Mod4
+set $tab Tab
+set $return Return
+set $caps_lock Lock
+set $terminal "kitty"
+set $notify "dunstify"
+set $monitor0 HDMI1 #M1 Monitor 1
+set $monitor1 "HDMI2" #M2 Monitor 2
+
+#================================================================================
+##=================================FONTE==========================================
+##================================================================================
+font pango:monospace 8,FiraCode 8
+
+##================================================================================
+##=================================ATALHOS========================================
+##================================================================================
+
+bindsym $mod+$control+$return exec urxvt
+bindsym $mod+$return exec $terminal
+
+bindsym $mod+c exec copyq menu
+bindsym $mod+g exec chromium
+bindsym $mod+t exec dolphin #nautilus
+bindsym Print exec --no-startup-id i3-scrot
+bindsym $control+Print exec --no-startup-id i3-scrot -w
+bindsym $control+$alt+Print exec --no-startup-id i3-scrot -s
+bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
+
+bindsym $caps_lock exec $notify  "Caps Lock"
+bindsym XF86Copy exec xclip -i
+bindsym XF86Paste exec xclip -o
+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+ && $notify --appname="amixer" "Volume "$(amixer get Master | awk '$0~/%/{print $5}' | tr -d '[]%') 
+bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%- && $notify --appname="amixer" "Volume "$(amixer get Master | awk '$0~/%/{print $5}' | tr -d '[]%') 
+bindsym XF86AudioMute exec amixer -D pulse set Master 1+ toggle && $notify --appname="amixer" "Volume "$(amixer get Master | awk '$0~/%/{print $6}' | tr -d '[]%')
+
+# Mouse: Botão do meio Modo flutuante
+bindsym button2 floating toggle
+bindsym $mod+ç exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
+
+
+##================================================================================
+##==================================SELECT CHAT===================================
+##================================================================================
+set $select_chat Chat (T)ELEGRAM, TO(X)IC, (I)RSSI, (R)ING, (M)ATRIX
+mode "$select_chat" {
+    bindsym t exec --no-startup-id "telegram" , mode "default"
+    bindsym x exec --no-startup-id "qtox", mode "default"
+    bindsym i exec --no-startup-id "$terminal --title=IRSSI --class=Irssi irssi", mode "default"
+    bindsym r exec --no-startup-id "gnome-ring", mode "default"
+    bindsym m exec --no-startup-id "riot-web", mode "default"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+z mode "$select_chat"
+
+##================================================================================
+##=================================DESLIGAR=======================================
+##================================================================================
+set $mode_system Opções: (L)OCK, LOG(O)UT, (S)USPEND, (H)IBERNATE, (R)EBOOT, SHUT(D)OWN, SHUTDOWN_NOW(Shift+d)
+mode "$mode_system" {
+    bindsym l exec --no-startup-id "/usr/local/bin/lock" , mode "default"
+    bindsym o exec --no-startup-id i3-msg exit, mode "default"
+    bindsym s exec --no-startup-id systemctl suspend, mode "default"
+    bindsym h exec --no-startup-id systemctl hibernate, mode "default"
+    bindsym r exec --no-startup-id systemctl reboot, mode "default"
+    bindsym d exec --no-startup-id "/sbin/shutdown", mode "default"
+    bindsym Shift+d exec --no-startup-id "/sbin/shutdown 0", mode "default"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Shift+d mode "$mode_system"
+
+#================================================================================
+##===============================CONTROLE DE VÍDEO================================
+##================================================================================
+set $mode_display Vídeo: (v) M1 ON, (H) M2 ON, (E) Left@M2, (A) Down@M2, (S) Escala++, (Shift+Op) Desfaz|Desliga 
+mode "$mode_display" {
+    # M1 ON
+    bindsym v exec --no-startup-id "xrandr --output $monitor0 --auto", mode "default"
+    #bindsym h exec --no-startup-id "xrandr --output $monitor1 --auto --right-of $monitor0", mode "default"
+    
+    # M1 OFF
+    bindsym Shift+v exec --no-startup-id "xrandr --output $monitor0 --auto --off", mode "default"
+    
+    # Clona para M2
+    bindsym h exec --no-startup-id "xrandr --output $monitor1 --auto", mode "default"
+
+    # M2 OFF
+    bindsym Shift+h exec --no-startup-id "xrandr --output $monitor1 --auto --off", mode "default"
+    
+    # Saida M2 a esquerda em paralelo
+    bindsym e exec --no-startup-id "xrandr --output $monitor0  --left-of $monitor1", mode "default"
+    
+    # Saida M2 abaixo
+    bindsym a exec --no-startup-id "xrandr --output $monitor1  --auto --panning 1360x768+0+768 --right-of $monitor0", mode "default"
+    
+    # Aumenta a escala M1
+    bindsym s exec --no-startup-id xrandr --output $monitor0 --scale 1.25x1.25 && i3 restart , mode "default"
+    
+    # Volta a escala Padrão M1
+    bindsym Shift+s exec --no-startup-id xrandr --output $monitor0 --scale 1x1 && i3 restart , mode "default"
+    
+    # Volta ao normal: Enter ou Esc
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+# Declare here the shortcut to bring the display selection menu
+bindsym $mod+x mode "$mode_display"
+
+##================================================================================
+##=========================CONTROLE DE CLARIDADE==================================
+##================================================================================
+bindsym XF86MonBrightnessUp exec $HOME/Dotfiles/Scripts/backlight.sh +10% 
+bindsym XF86MonBrightnessDown exec $HOME/Dotfiles/Scripts/backlight.sh -10%
+
+##================================================================================
+##==============================COMANDOS BÁSICOS==================================
+##================================================================================
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# start dmenu (a program launcher)
+bindsym $mod+d exec rofi -show drun
+bindsym $mod+$tab exec "rofi -show window"
+
+
+##================================================================================
+##=================================== Foco =======================================
+##================================================================================
+
+# change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+s+w layout toggle stacking tabbed splith
+bindsym $mod+w+e layout toggle split tabbed stacking
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+
+# focus_follows_mouse no
+floating_modifier $mod
+
+
+# Move para escondido
+bindsym $mod+Shift+minus move scratchpad
+# Mostra escondido
+bindsym $mod+minus scratchpad show
+
+##================================================================================
+##================================ CONF DEFAULT ==================================
+##================================================================================
+
+#float_minimum_size 75 x 50
+#float_maximum_size -1 x -1
+
+# Orientação padrão [horizontal|vertical|auto]
+default_orientation auto 
+
+# workspace layout [default|stacking|tabbed]
+workspace_layout default 
+
+# Alinhamento do Titulo [left|center|right]
+title_align center 
+
+# Borda Padrão [normal|none|pixel {num}]
+default_border normal
+default_floating_border none
+
+# Ocultar Borda dos containers [none|vertical|horizontal|both|smart]
+hide_edge_borders both
+
+# Seguir movimento do mouse [yes|no]
+focus_follows_mouse yes
+
+# Permite popup em tela cheia [smart|ignore|leave_fullscreen]
+popup_during_fullscreen smart
+
+# Permite voltar ao workspace que tenha chamada usando o comando do container em uso [yes|no]
+workspace_auto_back_and_forth yes
+
+# Define M2 com WorkSpace Padrão 10
+#workspace 10 output $monitor1
+
+floating_modifier $mod
+
+##================================================================================
+##================================ WorkSpaces ====================================
+##================================================================================
+
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# switch to workspace
+bindsym $mod+1 workspace $ws1
+bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
+bindsym $mod+5 workspace $ws5
+bindsym $mod+6 workspace $ws6
+bindsym $mod+7 workspace $ws7
+bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
+bindsym $mod+0 workspace $ws10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace $ws1
+bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
+bindsym $mod+Shift+5 move container to workspace $ws5
+bindsym $mod+Shift+6 move container to workspace $ws6
+bindsym $mod+Shift+7 move container to workspace $ws7
+bindsym $mod+Shift+8 move container to workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9
+bindsym $mod+Shift+0 move container to workspace $ws10
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+##================================================================================
+##==================================BORDAS========================================
+##================================================================================
+# change borders
+bindsym $mod+u border none
+bindsym $mod+y border pixel 1
+bindsym $mod+n border normal
+# Hide borders
+#smart_borders on
+##================================================================================
+##============================FLOATING DEFAULT====================================
+##================================================================================
+
+for_window [title="alsamixer"] floating enable border pixel 1
+for_window [class="Clipgrab"] floating enable
+for_window [title="File Transfer*"] floating enable
+for_window [class="Galculator"] floating enable border pixel 1
+for_window [class="GParted"] floating enable border normal
+for_window [title="i3_help"] floating enable sticky enable border normal
+for_window [class="Lightdm-gtk-greeter-settings"] floating enable
+for_window [class="Lxappearance"] floating enable sticky enable border normal
+for_window [class="Manjaro-hello"] floating enable
+for_window [class="Manjaro Settings Manager"] floating enable border normal
+for_window [title="MuseScore: Play Panel"] floating enable
+for_window [class="Nitrogen"] floating enable sticky enable border normal
+for_window [class="Oblogout"] fullscreen enable
+for_window [class="octopi"] floating enable
+for_window [class="Pamac-manager"] floating enable
+for_window [class="Pavucontrol"] floating enable
+for_window [class="qt5ct"] floating enable sticky enable border normal
+for_window [class="Qtconfig-qt4"] floating enable sticky enable border normal
+for_window [class="Simple-scan"] floating enable border normal
+for_window [class="(?i)System-config-printer.py"] floating enable border normal
+for_window [class="Thus"] floating enable border normal
+for_window [class="Timeset-gui"] floating enable border normal
+for_window [class="(?i)virtualbox"] floating enable border normal
+for_window [class="(?i)virtualbox"] fullscreen enable 
+for_window [class="Xfburn"] floating enable
+for_window [class="Yad" title="yad-calendar"] floating enable
+for_window [instance=notepad] sticky enable
+for_window [class="(?i)Deezer"] sticky enable
+for_window [class="(?i)brave"] title_format "<span foreground='red'>%title</span>"
+for_window [class="(?i)vivaldi"] title_format "<span foreground='red'>%title</span>"
+for_window [title="i3:"] border none
+for_window [urgent=latest] focus
+
+##================================================================================
+##============================MODO RECIZER========================================
+##================================================================================
+
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+     
+        bindsym h resize shrink width 4 px or 4 ppt
+        bindsym j resize grow height 4 px or 4 ppt
+        bindsym k resize shrink height 4 px or 4 ppt
+        bindsym l resize grow width 4 px or 4 ppt
+
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or $mod+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+##================================================================================
+##===================================BARRA========================================
+##================================================================================
+
+#bar {
+        #status_command i3status
+#}
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+##================================================================================
+##================================{{TEMA}}========================================
+##================================================================================
+
+client.background       #161616
+client.focused #859900 #859900 #fdf6e3 #6c71c4
+client.focused_inactive #073642 #073642 #eee8d5 #6c71c4
+client.unfocused #073642 #073642 #93a1a1 #586e75
+client.urgent #d33682 #d33682 #fdf6e3 #dc322f
+
+##================================================================================
+##==========================INICIAR JUNTO AO I3===================================
+##================================================================================
+
+#Gerenciador de Rede.
+exec --no-startup-id nm-applet --pause 5 
+
+exec xautolock -time 10 -locker -corners **** lock 
+exec --no-startup-id hsetroot -extend ~/Pictures/Linux\ Wallpapers\ 9.jpg
+exec setxkbmap -model abnt2 -layout br -variant ,abnt2
+exec --no-startup-id udiskie --smart-tray
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+#exec --no-startup-id $HOME/DotFiles/Scripts/wallblur/wallblur.sh -i $HOME/DotFiles/Images/Wallpapers/IMG_20180825_230512181_LL.jpg
+
+#Gerenciador da área de trandefencia.
+exec --no-startup-id copyq

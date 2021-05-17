@@ -1,0 +1,4 @@
+[Added Associations]
+application/gzip=org.gnome.FileRoller.desktop;sqlitebrowser.desktop;
+text/plain=code-oss.desktop;
+application/x-shellscript=code-oss.desktop;

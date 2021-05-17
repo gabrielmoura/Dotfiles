@@ -1,0 +1,1 @@
+# Essa sessão pode conter direitos autorais.

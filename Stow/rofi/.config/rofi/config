@@ -1,0 +1,2 @@
+rofi.theme: .config/rofi/flat-green-transparent.rasi
+rofi.terminal: kitty
