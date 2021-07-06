@@ -213,7 +213,8 @@ bindsym $mod+minus scratchpad show
 
 #float_minimum_size 75 x 50
 #float_maximum_size -1 x -1
-
+floating_minimum_size 75 x 50
+floating_maximum_size -1 x -1
 # Orientação padrão [horizontal|vertical|auto]
 default_orientation auto 
 
@@ -371,7 +372,7 @@ bindsym $mod+r mode "resize"
 #bar {
         #status_command i3status
 #}
-exec_always --no-startup-id ~/.config/polybar/launch.sh
+exec_always --no-startup-id ~/.config/polybar/launch.sh.bkp
 
 ##================================================================================
 ##================================{{TEMA}}========================================
@@ -391,7 +392,7 @@ client.urgent #d33682 #d33682 #fdf6e3 #dc322f
 exec --no-startup-id nm-applet --pause 5 
 
 exec xautolock -time 10 -locker -corners **** lock 
-exec --no-startup-id hsetroot -extend ~/Pictures/Linux\ Wallpapers\ 9.jpg
+exec --no-startup-id hsetroot -extend ~/Pictures/Wallpaper/tecnologia_terra-1920x1080.jpg
 exec setxkbmap -model abnt2 -layout br -variant ,abnt2
 exec --no-startup-id udiskie --smart-tray
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -399,3 +400,6 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 #Gerenciador da área de trandefencia.
 exec --no-startup-id copyq
+exec /usr/lib/geoclue-2.0/demos/agent
+exec /usr/bin/redshift-qt
+exec picom --experimental-backends
