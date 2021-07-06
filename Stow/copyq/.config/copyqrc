@@ -1,0 +1,4 @@
+[KFileDialog Settings]
+Recent Files[$e]=file:///tmp/test.cpq,file:///tmp/test.cpq
+Recent URLs[$e]=file:///tmp/,file:$HOME/
+detailViewIconSize=16
