@@ -68,6 +68,22 @@ mode "$select_chat" {
 bindsym $mod+z mode "$select_chat"
 
 ##================================================================================
+##==================================SELECT POMO===================================
+##================================================================================
+set $select_pomo Chat (N)EW, (L)IST, (I)NTERSECT
+mode "$select_pomo" {
+    bindsym n exec --no-startup-id pomo start -t $(i3-input -F '%s') , mode "default"
+    bindsym l exec --no-startup-id notify-send "$(pomo list)" --app-name="Pomo" --expire-time="10000", mode "default"
+    bindsym i exec --no-startup-id kitty /usr/bin/pomo begin $(i3-input -F '%s' -P="Escreva") --title=Pomo & , mode "default"
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+p mode "$select_pomo"
+
+
+
+##================================================================================
 ##=================================DESLIGAR=======================================
 ##================================================================================
 set $mode_system Opções: (L)OCK, LOG(O)UT, (S)USPEND, (H)IBERNATE, (R)EBOOT, SHUT(D)OWN, SHUTDOWN_NOW(Shift+d)
@@ -396,6 +412,7 @@ exec --no-startup-id hsetroot -extend ~/Pictures/Wallpaper/tecnologia_terra-1920
 exec setxkbmap -model abnt2 -layout br -variant ,abnt2
 exec --no-startup-id udiskie --smart-tray
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-satrtup-id gnome-keyring-daemon --daemonize --login
 #exec --no-startup-id $HOME/DotFiles/Scripts/wallblur/wallblur.sh -i $HOME/DotFiles/Images/Wallpapers/IMG_20180825_230512181_LL.jpg
 
 #Gerenciador da área de trandefencia.

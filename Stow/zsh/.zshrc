@@ -1,6 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-#export GOROOT=/usr/lib/go
+# export GOROOT=/usr/lib/go
 go env -w GO111MODULE=auto
 export GOPATH=$HOME/go:$HOME/Projetos/Go
 export PATH=$PATH:$HOME/go/bin/
@@ -153,6 +153,7 @@ alias ls='exa --group-directories-first' # https://the.exa.website/
 alias l='ls'
 alias :q='exit'
 alias ips="ip addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'"
+alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 ####################### Custom functions ###############################
 
 # Ref: https://github.com/paulmillr/dotfiles/blob/master/home/.zshrc.sh#L282
@@ -329,3 +330,4 @@ PERL5LIB="/home/blx32/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB
 PERL_LOCAL_LIB_ROOT="/home/blx32/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/blx32/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/blx32/perl5"; export PERL_MM_OPT;
+
