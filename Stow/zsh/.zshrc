@@ -1,30 +1,20 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 # export GOROOT=/usr/lib/go
-go env -w GO111MODULE=auto
-export GOPATH=$HOME/go:$HOME/Projetos/Go
-export PATH=$PATH:$HOME/go/bin/
-export PATH=$PATH:$HOME/.config/composer/vendor/bin
-export PATH=$PATH:$HOME/.local/bin
+
+
+
+export PATH=$PATH:/snap/bin
 export CHROOT=$HOME/chroot
+export XDG_DATA_DIRS="$XDG_DATA_DIRS:/var/lib/snapd/desktop/"
 
-#### DOCKER
-export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
 
-#### ANDROID
-export ANDROID_SDK_ROOT=$HOME/Android/Sdk
-export ANDROID_AVD_HOME=$HOME/.android/avd
-export ANDROID_HOME=$HOME/Android/Sdk #/opt/android-sdk
-export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/cmdline-tools
-export ANDROID_NDK_HOME=/opt/android-ndk
+
+#export DOCKER_BUILDKIT=1
 
 export MANPATH="/usr/local/man:$MANPATH"
-export LANG=pt_BR.UTF-8
+# export LANG=pt_BR.UTF-8
 
-#### ESP32
-export PATH=$PATH:$HOME/.espressif/python_env/idf4.1_py3.8_env/bin:/usr/bin:$HOME/.espressif/tools/xtensa-esp32-elf/esp-2020r2-8.2.0/xtensa-esp32-elf/bin:$HOME/.espressif/tools/xtensa-esp32s2-elf/esp-2020r2-8.2.0/xtensa-esp32s2-elf/bin:$HOME/.espressif/tools/esp32ulp-elf/2.28.51-esp-20191205/esp32ulp-elf-binutils/bin:$HOME/.espressif/tools/esp32s2ulp-elf/2.28.51-esp-20191205/esp32s2ulp-elf-binutils/bin:$HOME/.espressif/tools/openocd-esp32/v0.10.0-esp32-20191114/openocd-esp32/bin
-
-export TOOL_PATH=$HOME/.espressif/tools/openocd-esp32/v0.10.0-esp32-20191114/openocd-esp32/share/openocd/scripts
 #### Bundler
 export PATH=$PATH:$HOME/.gem/ruby/2.7.0/bin
 
@@ -37,6 +27,15 @@ export ZSH="$HOME/.oh-my-zsh"
 #export IDF_PATH=/opt/esp-idf
 #. /opt/esp-idf/export.sh
 
+
+
+### Load
+autoload -U +X bashcompinit && bashcompinit
+zmodload -i zsh/parameter
+if ! (( $+functions[compdef] )) ; then
+    autoload -U +X compinit && compinit
+fi
+complete -o nospace -C /usr/bin/mcli mcli
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -104,7 +103,7 @@ ZSH_CUSTOM=$HOME/.config/zsh
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git extract git-flow golang zsh-syntax-highlighting mkcd compress point pac systemadmin sudo)
-
+source /usr/share/nvm/init-nvm.sh
 source $ZSH/oh-my-zsh.sh
 #################### User settings below this line ################################
 
@@ -133,9 +132,9 @@ setopt HIST_IGNORE_SPACE
 export SSH_KEY_PATH="~/.ssh/rsa_id"
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='vim'
+#    export EDITOR='vim'
 # else
-#   export EDITOR='mvim'
+  export EDITOR='nvim'
 # fi
 
 # Compilation flags
@@ -151,9 +150,16 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 alias ls='exa --group-directories-first' # https://the.exa.website/
 alias l='ls'
+alias lag='exa -lag --git'
 alias :q='exit'
 alias ips="ip addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'"
 alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+alias cp="advcp -g"
+alias mv="advmv -g"
+alias tb="nc termbin.com 9999"
+alias sized='du -sh'
+alias size='du -h'
+alias open='xdg-open'
 ####################### Custom functions ###############################
 
 # Ref: https://github.com/paulmillr/dotfiles/blob/master/home/.zshrc.sh#L282
@@ -180,9 +186,6 @@ ram() {
   fi
 }
 
-alias sized='du -sh'
-    alias size='du -h'
-    alias open='xdg-open'
 function sign(){
 gpg --output "$1".sig --detach-sig "$1"
 #gpg --recipient 76CE3619A00292AF --output $1.sig --detach-sign $1
@@ -307,16 +310,9 @@ chrono(){
 	clear;
     done
 }
-autoload -U +X bashcompinit && bashcompinit
-zmodload -i zsh/parameter
-if ! (( $+functions[compdef] )) ; then
-    autoload -U +X compinit && compinit
-fi
 
-alias tb="nc termbin.com 9999"
-transfer.sh() { if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho transfer /tmp/test.md\ncat /tmp/test.md | transfer test.md"; return 1; fi 
-tmpfile=$( mktemp -t transferXXX ); if tty -s; then basefile=$(basename "$1" | sed -e 's/[^a-zA-Z0-9._-]/-/g'); curl --progress-bar --upload-file "$1" "https://transfer.sh/$basefile" >> $tmpfile; else curl --progress-bar --upload-file "-" "https://transfer.sh/$1" >> $tmpfile ; fi; cat $tmpfile; rm -f $tmpfile; 
-}
+transfer(){ if [ $# -eq 0 ];then echo "No arguments specified.\nUsage:\n transfer <file|directory>\n ... | transfer <file_name>">&2;return 1;fi;if tty -s;then file="$1";file_name=$(basename "$file");if [ ! -e "$file" ];then echo "$file: No such file or directory">&2;return 1;fi;if [ -d "$file" ];then file_name="$file_name.zip" ,;(cd "$file"&&zip -r -q - .)|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null,;else cat "$file"|curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;else file_name=$1;curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name"|tee /dev/null;fi;}
+
 function tmp.ninja(){
       if [ $# -eq 0 ]
     then
@@ -325,9 +321,3 @@ function tmp.ninja(){
     fi
     curl -i -F file=@"$1" https://tmp.ninja/api.php?d=upload-tool
 } 
-PATH="/home/blx32/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/blx32/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/blx32/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/blx32/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/blx32/perl5"; export PERL_MM_OPT;
-

@@ -5,7 +5,7 @@
 # |______/|_____|   __|________|__|__|__|__| |____|
 #               |__|
 
-#pgrep -x sxhkd &
+pgrep -x sxhkd > /dev/null || sxhkd &
 
 bspc monitor -d I II III IV V VI VII VIII IX X
 
@@ -29,18 +29,20 @@ bspc config active_border_color \#CCCCCC
 bspc config focused_border_color \#D38A0C 
 bspc config presel_feedback_color \#FFFFFF
 
-
-feh --bg-scale $HOME/Pictures/deposito/yggdrasil1.jpg &
+#sxhkd &
+#feh --bg-scale $HOME/Pictures/deposito/yggdrasil1.jpg &
 picom --experimental-backends &
 setxkbmap -layout br &
-bash $HOME/.config/polybar/launch.sh --shades &
-sxhkd &
+#setxkbmap -model pc105 -layout br -variant abnt
+#setxkbmap -model abnt2 -layout br -variant abnt2
+bash $HOME/.config/polybar/launch-bspwm.sh --shades &
+#sxhkd &
 #Polkit
 /usr/libexec/polkit-gnome-authentication-agent-1 &
 # Adjusts the color temperature of screen
-/usr/libexec/geoclue-2.0/demos/agent &
-redshift-gtk &
-copyq &
-udiskie --smart-tray &
-xautolock -time 10 -locker -corners **** lock 
+#/usr/libexec/geoclue-2.0/demos/agent &
+#edshift-gtk &
+#opyq &
+#diskie --smart-tray &
+#autolock -time 10 -locker -corners **** lock 
 #home/blx32/Pictures/deposito/yggdrasil1.jpg

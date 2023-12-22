@@ -102,8 +102,24 @@ scroll-up = i3wm-wsnext
 scroll-down = i3wm-wsprev
 
 modules-left = user i3
-modules-right = pomo arch_backlight volume  bbswitch_show memory cpu temperature   popup-calendar clock
+modules-right = wired-network2 pomo volume bbswitch_show memory cpu temperature backlight popup-calendar clock
 ;bluetooth wireless-network
+
+;############
+[module/wired-network2]
+type = internal/network
+interface = eth0
+interval = 3.0
+format-connected-background = ${colors.background}
+format-connected-foreground = ${colors.foreground}
+format-connected-padding = 1
+format-connected = %{A1:$HOME/tmp/rofi-network-manager/rofi-network-manager.sh:}<label-connected>%{A}
+label-connected =  %local_ip%
+format-disconnected-background = ${colors.background}
+format-disconnected-foreground = ${colors.foreground-alt}
+format-disconnected-padding = 1
+format-disconnected = %{A1:$HOME/tmp/rofi-network-manager/rofi-network-manager.sh:}<label-disconnected>%{A}
+label-disconnected ="󰌺"
 
 ;###############################################################
 [module/pomo]

@@ -6,7 +6,6 @@
 #
 # networkmanager-dmenu
 # Simple X hotkey daemon
-# https://github.com/baskerville/sxhkd
 
 ####################################################
 ####### Custom keyboard shortcuts  #########
@@ -27,7 +26,7 @@ super + n
 
 # Chromium
 super + g
-    chromium
+    google-chrome-stable
 
 # Copyq
 super +c
@@ -59,7 +58,7 @@ super + shift + s
 
 # Reload sxhkd and polybar:
 super + Escape
-    pkill -USR1 -x sxhkd && ~/.config/polybar/launch.sh --shades
+    pkill -USR1 -x sxhkd && ~/.config/polybar/launch-bspwm.sh --shades
 
 # Find files with rofi:
 super + shift + f

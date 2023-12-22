@@ -12,6 +12,8 @@ Depende de:
 * rofi
 * [polkit-gnome](https://www.archlinux.org/packages/?name=polkit-gnome)
 * stow 'sudo pacman -S stow'
+* advcpmv
+* sunflower
 
 Fontes utilizadas:
 

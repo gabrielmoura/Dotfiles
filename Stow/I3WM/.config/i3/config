@@ -27,7 +27,7 @@ bindsym $mod+$control+$return exec urxvt
 bindsym $mod+$return exec $terminal
 
 bindsym $mod+c exec copyq menu
-bindsym $mod+g exec chromium
+bindsym $mod+g exec google-chrome-stable
 bindsym $mod+t exec dolphin #nautilus
 bindsym Print exec --no-startup-id i3-scrot
 bindsym $control+Print exec --no-startup-id i3-scrot -w
@@ -408,7 +408,7 @@ client.urgent #d33682 #d33682 #fdf6e3 #dc322f
 exec --no-startup-id nm-applet --pause 5 
 
 exec xautolock -time 10 -locker -corners **** lock 
-exec --no-startup-id hsetroot -extend ~/Pictures/Wallpaper/tecnologia_terra-1920x1080.jpg
+exec --no-startup-id hsetroot -extend ~/Dotfiles/Wallpaper/wall1.jpg
 exec setxkbmap -model abnt2 -layout br -variant ,abnt2
 exec --no-startup-id udiskie --smart-tray
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -419,4 +419,7 @@ exec --no-satrtup-id gnome-keyring-daemon --daemonize --login
 exec --no-startup-id copyq
 exec /usr/lib/geoclue-2.0/demos/agent
 exec /usr/bin/redshift-qt
-exec picom --experimental-backends
+exec picom
+exec $HOME/.config/polybar/launch.sh --shades &
+exec export XDG_CURRENT_DESKTOP='i3'
+exec --no-startup-id aw-qt
