@@ -41,3 +41,6 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
+
+# Github
+export CR_PAT="ghp_JzkRfVslOn4IZuTJ1EKbJj"
