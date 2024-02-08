@@ -1,2 +1,3 @@
-*.dat
-*.pub
+**/*.dat
+**/*.pub
+copyq_geometry.ini
