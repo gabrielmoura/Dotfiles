@@ -21,5 +21,9 @@ Comandos definidos no arquivo de configuração:
 - `Super + scroll para cima`: Navega para o workspace anterior.
 - `Super + scroll para baixo`: Navega para o próximo workspace.
 - Movimento/redimensionamento de janelas com clique esquerdo/direito do mouse e arrastando com a tecla `Super` pressionada.
+- `Super + T`: Inicia o modo agrupado.
+- `Super + H`: Transita entre as telas do modo agrupado.
+- `Super + Print`: Tira Print de uma região.
+- `Super + Tab`: Abre o Rofi em modo Janelas.
 
 Esses são os comandos definidos no arquivo de configuração fornecido. Cada comando é precedido pelo modificador de tecla, que é definido como `Super` (`$mainMod`).
