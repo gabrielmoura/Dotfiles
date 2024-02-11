@@ -1,0 +1,16 @@
+# Aceleração de hardware no Wayland
+
+## Correção
+
+Em $HOME/.config/
+
+```conf
+--ignore-gpu-blocklist
+--enable-gpu-rasterization
+--enable-zero-copy
+--disable-gpu-driver-bug-workarounds
+--use-gl=egl
+--enable-accelerated-video-decode
+--enable-features=UseOzonePlatform
+--ozone-platform=wayland
+```
