@@ -1,3 +1,5 @@
 **/*.dat
 **/*.pub
 copyq_geometry.ini
+copyq_tabs.ini
+*.lock
