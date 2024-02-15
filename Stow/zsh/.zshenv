@@ -44,3 +44,7 @@ esac
 
 # Github
 export CR_PAT="ghp_JzkRfVslOn4IZuTJ1EKbJj"
+
+# Tmux
+export TMUX_CONFIG="$HOME/.config/tmux/tmux.conf"
+
